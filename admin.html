@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Quiniela Mundial 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            color: white;
+        }
+        .user-info {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .user-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-details i {
+            font-size: 2rem;
+            color: #667eea;
+        }
+        .admin-badge {
+            background: #ff9800;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .logout-btn {
+            background: #f44336;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+        }
+        .admin-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .admin-tab {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .admin-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .admin-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .admin-panel h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .fase-selector-admin {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .fase-selector-admin select, .fase-selector-admin button {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        .btn-cargar {
+            background: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .partido-admin {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .partido-info {
+            flex: 2;
+        }
+        .partido-resultados {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .partido-resultados input {
+            width: 70px;
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .btn-guardar {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-avanzar {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .tabla-usuarios {
+            overflow-x: auto;
+        }
+        .tabla-usuarios table {
+            width: 100%;
+            font-size: 0.85rem;
+        }
+        .tabla-usuarios th, .tabla-usuarios td {
+            padding: 10px;
+        }
+        .registro-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .registro-form input, .registro-form select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .btn-registrar {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-simular {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        @media (max-width: 768px) {
+            .partido-admin { flex-direction: column; align-items: stretch; }
+            .registro-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-user-shield"></i>
+                <h1>Panel Administrador</h1>
+            </div>
+            <div class="subtitle">Gestión de Quiniela Mundial 2026</div>
+        </header>
+
+        <div class="user-info">
+            <div class="user-details">
+                <i class="fas fa-user-circle"></i>
+                <span id="admin-nombre">Administrador</span>
+                <span class="admin-badge">ADMIN</span>
+            </div>
+            <button onclick="cerrarSesion()" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Salir
+            </button>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab active" onclick="mostrarTab('resultados')">📊 Resultados</button>
+            <button class="admin-tab" onclick="mostrarTab('usuarios')">👥 Usuarios</button>
+            <button class="admin-tab" onclick="mostrarTab('clasificacion')">🏆 Clasificación</button>
+            <button class="admin-tab" onclick="mostrarTab('simulador')">🎮 Simulador</button>
+        </div>
+
+        <!-- Tab Resultados -->
+        <div id="tab-resultados" class="admin-panel">
+            <h3><i class="fas fa-futbol"></i> Registrar Resultados</h3>
+            
+            <div class="fase-selector-admin">
+                <select id="admin-fase" onchange="cargarPartidosAdmin()">
+                    <option value="grupos">Fase de Grupos</option>
+                    <option value="dieciseisavos">Dieciseisavos</option>
+                    <option value="octavos">Octavos de Final</option>
+                    <option value="cuartos">Cuartos de Final</option>
+                    <option value="semis">Semifinales</option>
+                    <option value="final">Final</option>
+                </select>
+                <button class="btn-cargar" onclick="cargarPartidosAdmin()"><i class="fas fa-sync-alt"></i> Cargar</button>
+            </div>
+
+            <div id="partidos-admin-container"></div>
+
+            <button class="btn-avanzar" onclick="avanzarFaseManual()">
+                <i class="fas fa-step-forward"></i> Avanzar a Siguiente Fase
+            </button>
+        </div>
+
+        <!-- Tab Usuarios -->
+        <div id="tab-usuarios" class="admin-panel" style="display:none;">
+            <h3><i class="fas fa-users"></i> Gestión de Usuarios</h3>
+            
+            <div class="registro-form">
+                <input type="text" id="nuevo-usuario" placeholder="Usuario">
+                <input type="text" id="nuevo-password" placeholder="Contraseña">
+                <input type="text" id="nuevo-nombre" placeholder="Nombre completo">
+                <button class="btn-registrar" onclick="registrarUsuarioAdmin()">
+                    <i class="fas fa-plus"></i> Registrar Usuario
+                </button>
+            </div>
+
+            <div class="tabla-usuarios">
+                <table id="tabla-usuarios-admin">
+                    <thead>
+                        <tr><th>Usuario</th><th>Nombre</th><th>Puntos</th><th>Aciertos</th></tr>
+                    </thead>
+                    <tbody id="usuarios-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab Clasificación -->
+        <div id="tab-clasificacion" class="admin-panel" style="display:none;">
+            <h3><i class="fas fa-chart-line"></i> Clasificación General</h3>
+            <div class="tabla-container">
+                <table id="clasificacion-table">
+                    <thead><tr><th>#</th><th>Participante</th><th>Puntos</th><th>Aciertos</th><th>%</th></tr></thead>
+                    <tbody id="clasificacion-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab Simulador -->
+        <div id="tab-simulador" class="admin-panel" style="display:none;">
+            <h3><i class="fas fa-robot"></i> Simulador de Eliminatorias</h3>
+            <p>Simula resultados para ver cómo avanzan los equipos en las fases finales</p>
+            <button class="btn-simular" onclick="simularEliminatorias()">
+                <i class="fas fa-play"></i> Simular Eliminatorias
+            </button>
+            <div id="simulacion-resultados" style="margin-top:20px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de partidos (mismos que en index)
+        const PARTIDOS = {
+            grupos: [
+                { id: 1, grupo: "A", local: "México", visitante: "Sudáfrica", fecha: "11/06" },
+                { id: 2, grupo: "A", local: "Corea del Sur", visitante: "República Checa", fecha: "11/06" },
+                { id: 3, grupo: "B", local: "Canadá", visitante: "Bosnia", fecha: "12/06" },
+                { id: 4, grupo: "D", local: "EE.UU.", visitante: "Paraguay", fecha: "12/06" },
+                { id: 5, grupo: "B", local: "Catar", visitante: "Suiza", fecha: "13/06" },
+                { id: 6, grupo: "C", local: "Brasil", visitante: "Marruecos", fecha: "13/06" }
+            ],
+            dieciseisavos: [
+                { id: 101, local: "1° Grupo A", visitante: "3° Grupo C/D/E", fecha: "28/06" },
+                { id: 102, local: "2° Grupo B", visitante: "2° Grupo A", fecha: "28/06" }
+            ],
+            octavos: [{ id: 201, local: "Ganador 101", visitante: "Ganador 102", fecha: "03/07" }],
+            cuartos: [{ id: 301, local: "Ganador 201", visitante: "Ganador 202", fecha: "09/07" }],
+            semis: [{ id: 401, local: "Ganador 301", visitante: "Ganador 302", fecha: "14/07" }],
+            final: [{ id: 501, local: "Ganador 401", visitante: "Ganador 402", fecha: "19/07" }]
+        };
+
+        let faseActual = 'grupos';
+        let resultados = {};
+
+        function cargarSesion() {
+            const username = sessionStorage.getItem('usuario_actual');
+            const rol = sessionStorage.getItem('rol_usuario');
+            
+            if (!username || rol !== 'admin') {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('admin-nombre').textContent = sessionStorage.getItem('nombre_usuario') || username;
+        }
+
+        function cargarPartidosAdmin() {
+            faseActual = document.getElementById('admin-fase').value;
+            const partidos = PARTIDOS[faseActual] || [];
+            const resultadosGuardados = JSON.parse(localStorage.getItem('quiniela_resultados') || '{}');
+            const resultadosFase = resultadosGuardados[faseActual] || {};
+            
+            const container = document.getElementById('partidos-admin-container');
+            
+            if (partidos.length === 0) {
+                container.innerHTML = '<p>No hay partidos en esta fase</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            partidos.forEach(partido => {
+                const resultado = resultadosFase[partido.id];
+                
+                const div = document.createElement('div');
+                div.className = 'partido-admin';
+                div.innerHTML = `
+                    <div class="partido-info">
+                        <strong>${partido.local}</strong> vs <strong>${partido.visitante}</strong><br>
+                        <small>📅 ${partido.fecha}</small>
+                    </div>
+                    <div class="partido-resultados">
+                        <input type="number" id="local_${partido.id}" placeholder="Local" value="${resultado?.local || ''}" style="width:70px">
+                        <span>-</span>
+                        <input type="number" id="visit_${partido.id}" placeholder="Visitante" value="${resultado?.visitante || ''}" style="width:70px">
+                        <button class="btn-guardar" onclick="guardarResultadoAdmin('${faseActual}', ${partido.id}, '${partido.local}', '${partido.visitante}')">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function guardarResultadoAdmin(fase, partidoId, localNombre, visitanteNombre) {
+            const local = parseInt(document.getElementById(`local_${partidoId}`).value);
+            const visitante = parseInt(document.getElementById(`visit_${partidoId}`).value);
+            
+            if (isNaN(local) || isNaN(visitante)) {
+                alert('Ingresa resultados válidos');
+                return;
+            }
+            
+            let resultadosGuardados = JSON.parse(localStorage.getItem('quiniela_resultados') || '{}');
+            if (!resultadosGuardados[fase]) resultadosGuardados[fase] = {};
+            
+            resultadosGuardados[fase][partidoId] = { local, visitante, localNombre, visitanteNombre };
+            localStorage.setItem('quiniela_resultados', JSON.stringify(resultadosGuardados));
+            
+            alert('Resultado guardado correctamente');
+            cargarPartidosAdmin();
+            actualizarPuntajes();
+        }
+
+        function actualizarPuntajes() {
+            const usuariosGuardados = JSON.parse(localStorage.getItem('quiniela_usuarios') || '[]');
+            const resultadosGuardados = JSON.parse(localStorage.getItem('quiniela_resultados') || '{}');
+            
+            const usuariosActualizados = usuariosGuardados.map(usuario => {
+                let puntos = 0;
+                let aciertos = 0;
+                
+                for (const fase of Object.keys(PARTIDOS)) {
+                    const partidosFase = PARTIDOS[fase];
+                    const resultadosFase = resultadosGuardados[fase] || {};
+                    const pronosticosUsuario = JSON.parse(localStorage.getItem(`pronosticos_${usuario.nombre}`) || '{}');
+                    
+                    partidosFase.forEach(partido => {
+                        const pronostico = pronosticosUsuario[fase]?.[partido.id];
+                        const resultado = resultadosFase[partido.id];
+                        
+                        if (pronostico && resultado) {
+                            let resultadoReal = resultado.local > resultado.visitante ? '1' :
+                                              resultado.local === resultado.visitante ? 'X' : '2';
+                            if (pronostico === resultadoReal) {
+                                puntos += 3;
+                                aciertos++;
+                            }
+                        }
+                    });
+                }
+                
+                return { ...usuario, puntos, aciertos };
+            });
+            
+            localStorage.setItem('quiniela_usuarios', JSON.stringify(usuariosActualizados));
+            cargarUsuariosAdmin();
+            cargarClasificacion();
+        }
+
+        function cargarUsuariosAdmin() {
+            const usuarios = JSON.parse(localStorage.getItem('quiniela_usuarios') || '[]');
+            const tbody = document.getElementById('usuarios-tbody');
+            
+            tbody.innerHTML = '';
+            usuarios.forEach(usuario => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = usuario.nombre;
+                row.insertCell(1).textContent = usuario.nombre;
+                row.insertCell(2).textContent = usuario.puntos || 0;
+                row.insertCell(3).textContent = usuario.aciertos || 0;
+            });
+        }
+
+        function cargarClasificacion() {
+            const usuarios = JSON.parse(localStorage.getItem('quiniela_usuarios') || '[]');
+            const usuariosOrdenados = [...usuarios].sort((a, b) => b.puntos - a.puntos);
+            const tbody = document.getElementById('clasificacion-tbody');
+            
+            tbody.innerHTML = '';
+            usuariosOrdenados.forEach((usuario, idx) => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = idx + 1;
+                row.insertCell(1).textContent = usuario.nombre;
+                row.insertCell(2).innerHTML = `<strong>${usuario.puntos || 0}</strong>`;
+                row.insertCell(3).textContent = usuario.aciertos || 0;
+                row.insertCell(4).textContent = usuario.aciertos ? Math.round((usuario.aciertos / 104) * 100) : 0 + '%';
+            });
+        }
+
+        function registrarUsuarioAdmin() {
+            const usuario = document.getElementById('nuevo-usuario').value;
+            const password = document.getElementById('nuevo-password').value;
+            const nombre = document.getElementById('nuevo-nombre').value;
+            
+            if (!usuario || !password || !nombre) {
+                alert('Completa todos los campos');
+                return;
+            }
+            
+            let usuarios = JSON.parse(localStorage.getItem('quiniela_usuarios') || '[]');
+            
+            if (usuarios.some(u => u.nombre === nombre)) {
+                alert('Este usuario ya existe');
+                return;
+            }
+            
+            usuarios.push({ nombre, pronosticos: {}, puntos: 0, aciertos: 0 });
+            localStorage.setItem('quiniela_usuarios', JSON.stringify(usuarios));
+            
+            document.getElementById('nuevo-usuario').value = '';
+            document.getElementById('nuevo-password').value = '';
+            document.getElementById('nuevo-nombre').value = '';
+            
+            cargarUsuariosAdmin();
+            alert('Usuario registrado correctamente');
+        }
+
+        function avanzarFaseManual() {
+            const fases = ['grupos', 'dieciseisavos', 'octavos', 'cuartos', 'semis', 'final'];
+            const indiceActual = fases.indexOf(faseActual);
+            
+            if (indiceActual < fases.length - 1) {
+                const siguienteFase = fases[indiceActual + 1];
+                document.getElementById('admin-fase').value = siguienteFase;
+                faseActual = siguienteFase;
+                cargarPartidosAdmin();
+                alert(`Has avanzado a ${siguienteFase.toUpperCase()}`);
+            } else {
+                alert('Ya estás en la fase final');
+            }
+        }
+
+        function simularEliminatorias() {
+            const container = document.getElementById('simulacion-resultados');
+            container.innerHTML = `
+                <div style="background:#e8f5e9; padding:20px; border-radius:15px;">
+                    <h4>🎮 Simulación de Eliminatorias</h4>
+                    <p>Los equipos avanzan según los resultados registrados en cada fase.</p>
+                    <hr>
+                    <p>✅ Para ver los cruces reales, registra los resultados de cada partido en la pestaña "Resultados".</p>
+                    <p>🏆 El campeón se determinará automáticamente cuando todos los resultados estén registrados.</p>
+                </div>
+            `;
+        }
+
+        function mostrarTab(tab) {
+            document.getElementById('tab-resultados').style.display = 'none';
+            document.getElementById('tab-usuarios').style.display = 'none';
+            document.getElementById('tab-clasificacion').style.display = 'none';
+            document.getElementById('tab-simulador').style.display = 'none';
+            
+            document.getElementById(`tab-${tab}`).style.display = 'block';
+            
+            document.querySelectorAll('.admin-tab').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (tab === 'usuarios') cargarUsuariosAdmin();
+            if (tab === 'clasificacion') cargarClasificacion();
+            if (tab === 'resultados') cargarPartidosAdmin();
+        }
+
+        function cerrarSesion() {
+            sessionStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarSesion();
+            cargarPartidosAdmin();
+            cargarUsuariosAdmin();
+            cargarClasificacion();
+        });
+
+        window.guardarResultadoAdmin = guardarResultadoAdmin;
+        window.cargarPartidosAdmin = cargarPartidosAdmin;
+        window.registrarUsuarioAdmin = registrarUsuarioAdmin;
+        window.avanzarFaseManual = avanzarFaseManual;
+        window.simularEliminatorias = simularEliminatorias;
+        window.mostrarTab = mostrarTab;
+        window.cerrarSesion = cerrarSesion;
+    </script>
+</body>
+</html>
