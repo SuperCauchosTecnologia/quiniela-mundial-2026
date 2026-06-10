@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiniela Mundial 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1600px; margin: 0 auto; }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+            border-radius: 30px;
+            color: white;
+        }
+        .logo { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }
+        .logo i { font-size: 48px; animation: bounce 2s infinite; }
+        .logo h1 { font-size: 2.5rem; }
+        @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .user-info {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .user-details { display: flex; align-items: center; gap: 15px; }
+        .user-details i { font-size: 2rem; color: #e63946; }
+        .user-role { background: #4caf50; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; }
+        .logout-btn { background: #f44336; border: none; padding: 8px 20px; border-radius: 10px; color: white; cursor: pointer; }
+        .welcome-message { text-align: center; padding: 40px; background: white; border-radius: 20px; margin-bottom: 20px; }
+        .welcome-message h2 { color: #e63946; margin-bottom: 10px; }
+        .btn-demo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            margin: 10px;
+        }
+        @media (max-width: 768px) {
+            .logo h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-futbol"></i>
+                <h1>Mundial 2026</h1>
+            </div>
+            <div class="subtitle">🇨🇦 🇲🇽 🇺🇸 • Tu Quiniela</div>
+        </header>
+
+        <div class="user-info">
+            <div class="user-details">
+                <i class="fas fa-user-circle"></i>
+                <span id="usuario-nombre">Cargando...</span>
+                <span class="user-role" id="usuario-rol">Usuario</span>
+            </div>
+            <button onclick="cerrarSesion()" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Salir
+            </button>
+        </div>
+
+        <div class="welcome-message">
+            <h2>⚽ Bienvenido a la Quiniela Mundial 2026</h2>
+            <p>Próximamente podrás hacer tus pronósticos para todos los partidos.</p>
+            <button onclick="verPartidos()" class="btn-demo">📋 Ver Partidos</button>
+            <button onclick="verTabla()" class="btn-demo">🏆 Ver Tabla de Posiciones</button>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const usuario = sessionStorage.getItem('usuario_actual');
+            const nombre = sessionStorage.getItem('nombre_usuario');
+            
+            if (!usuario) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            document.getElementById('usuario-nombre').textContent = nombre || usuario;
+            document.getElementById('usuario-rol').textContent = sessionStorage.getItem('rol_usuario') === 'admin' ? 'Admin' : 'Usuario';
+        });
+        
+        function verPartidos() {
+            alert('Próximamente: Todos los partidos del Mundial 2026');
+        }
+        
+        function verTabla() {
+            alert('Próximamente: Tabla de posiciones');
+        }
+        
+        function cerrarSesion() {
+            sessionStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
