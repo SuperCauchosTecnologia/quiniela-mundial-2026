@@ -3,7 +3,7 @@
 // ============================================
 
 // ⭐⭐⭐ TU URL DE APPS SCRIPT (YA INCLUIDA) ⭐⭐⭐
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL9Dh3Ba7-T92Jc-5g6rD0sNXS7LmGnr8nbk_U4FcYVCkgDcw9u6gCmqgkMVeqSM9o/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyNOUB1Tmqgq4ppybSr4xiz7CJuVrNOF1xII3qBxjpoQnhcyS8JpNkmygyLZsR_qDpF/exec';
 
 // Fases del Mundial
 const FASES_MUNDIAL = ['grupos', 'dieciseisavos', 'octavos', 'cuartos', 'semis', 'final'];
